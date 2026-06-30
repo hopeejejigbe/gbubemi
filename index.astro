@@ -1,0 +1,258 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  pubDate: Date;
+  updatedDate?: Date;
+  author: string;
+  tags: string[];
+}
+
+const { title, description, pubDate, updatedDate, author, tags } = Astro.props;
+
+const formattedDate = pubDate.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<BaseLayout title={title} description={description}>
+  <article class="post">
+    <header class="post-hero">
+      {tags.length > 0 && (
+        <div class="post-tags">
+          {tags.map((tag) => <span class="tag">{tag}</span>)}
+        </div>
+      )}
+      <h1>{title}</h1>
+      <p class="post-description">{description}</p>
+      <div class="post-meta">
+        <span>{author}</span>
+        <span class="dot">&middot;</span>
+        <span>{formattedDate}</span>
+        {updatedDate && (
+          <>
+            <span class="dot">&middot;</span>
+            <span>Updated {updatedDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+          </>
+        )}
+      </div>
+    </header>
+
+    <div class="post-body">
+      <slot />
+    </div>
+
+    <div class="post-cta">
+      <p class="cta-eyebrow">Try it yourself</p>
+      <h3>See yourself in it before you buy it</h3>
+      <p>Join the Gbubemi waitlist and be first to try virtual try-on built for every skin tone and every size.</p>
+      <a href="https://gbubemi.com" class="cta-button">Join the waitlist</a>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .post {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 3rem 2rem 5rem;
+  }
+
+  .post-hero {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding-bottom: 2.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .post-tags {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--pink);
+    background: rgba(229,0,126,0.08);
+    padding: 4px 12px;
+    border-radius: 20px;
+  }
+
+  .post-hero h1 {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: 700;
+    color: var(--black);
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    margin-bottom: 1rem;
+  }
+
+  .post-description {
+    font-size: 1.05rem;
+    color: var(--muted);
+    max-width: 540px;
+    margin: 0 auto 1.5rem;
+    line-height: 1.6;
+  }
+
+  .post-meta {
+    font-size: 0.85rem;
+    color: var(--muted);
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .dot { opacity: 0.5; }
+
+  /* Prose styling for markdown content */
+  .post-body {
+    font-size: 1.0625rem;
+    color: var(--dark);
+    line-height: 1.8;
+  }
+
+  .post-body :global(h2) {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--black);
+    letter-spacing: -0.02em;
+    margin: 2.5rem 0 1rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 2px solid var(--border);
+  }
+
+  .post-body :global(h3) {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--dark);
+    margin: 1.75rem 0 0.75rem;
+  }
+
+  .post-body :global(p) {
+    margin-bottom: 1.25rem;
+    color: var(--muted);
+  }
+
+  .post-body :global(a) {
+    color: var(--pink);
+    text-decoration: underline;
+    text-decoration-color: rgba(229,0,126,0.3);
+    text-underline-offset: 3px;
+    font-weight: 500;
+  }
+
+  .post-body :global(a:hover) {
+    text-decoration-color: var(--pink);
+  }
+
+  .post-body :global(ul),
+  .post-body :global(ol) {
+    margin: 1.25rem 0 1.25rem 1.5rem;
+    color: var(--muted);
+  }
+
+  .post-body :global(li) {
+    margin-bottom: 0.6rem;
+    line-height: 1.7;
+  }
+
+  .post-body :global(blockquote) {
+    border-left: 3px solid var(--pink);
+    background: var(--light);
+    padding: 1rem 1.5rem;
+    margin: 1.5rem 0;
+    border-radius: 0 8px 8px 0;
+    font-style: italic;
+    color: var(--dark);
+  }
+
+  .post-body :global(img) {
+    border-radius: 12px;
+    margin: 2rem 0;
+  }
+
+  .post-body :global(strong) {
+    color: var(--black);
+    font-weight: 700;
+  }
+
+  .post-body :global(code) {
+    background: var(--light);
+    padding: 0.15em 0.4em;
+    border-radius: 5px;
+    font-size: 0.9em;
+  }
+
+  .post-body :global(hr) {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 2.5rem 0;
+  }
+
+  /* CTA block */
+  .post-cta {
+    margin-top: 4rem;
+    background: linear-gradient(135deg, rgba(229,0,126,0.04), rgba(255,77,166,0.04));
+    border: 1.5px solid rgba(229,0,126,0.15);
+    border-radius: 16px;
+    padding: 2.5rem 2rem;
+    text-align: center;
+  }
+
+  .cta-eyebrow {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--pink);
+    margin-bottom: 0.5rem;
+  }
+
+  .post-cta h3 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--black);
+    letter-spacing: -0.02em;
+    margin-bottom: 0.6rem;
+  }
+
+  .post-cta p {
+    color: var(--muted);
+    max-width: 420px;
+    margin: 0 auto 1.5rem;
+    font-size: 0.95rem;
+  }
+
+  .cta-button {
+    display: inline-block;
+    background: var(--gradient);
+    color: #fff;
+    font-weight: 700;
+    text-decoration: none;
+    padding: 0.85rem 2rem;
+    border-radius: 100px;
+    font-size: 0.9375rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .cta-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(229,0,126,0.3);
+  }
+
+  @media (max-width: 600px) {
+    .post { padding: 2rem 1.25rem 4rem; }
+  }
+</style>
