@@ -20,13 +20,16 @@ const { title, description } = Astro.props;
   <meta property="og:description" content={description} />
   <meta property="og:type" content="website" />
   <meta name="twitter:card" content="summary_large_image" />
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon-32.png" type="image/png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="canonical" href={Astro.url} />
 </head>
 <body>
 
   <nav class="site-nav">
-    <a href="/" class="nav-logo">Gbubemi</a>
+    <a href="/" class="nav-logo">
+      <img src="/gbubemi-logo.png" alt="Gbubemi" />
+    </a>
     <div class="nav-links">
       <a href="/blog">Blog</a>
       <a href="https://gbubemi.com">Main site</a>
@@ -38,7 +41,8 @@ const { title, description } = Astro.props;
   </main>
 
   <footer class="site-footer">
-    <span class="footer-logo">Gbubemi</span>
+    <img src="/gbubemi-icon-square.png" alt="Gbubemi" class="footer-icon" />
+    <span class="footer-wordmark">Gbubemi</span>
     <p class="tagline">"See yourself in it before you buy it."</p>
     <p>&copy; {new Date().getFullYear()} Gbubemi. All rights reserved.</p>
     <div class="footer-links">
@@ -68,14 +72,15 @@ const { title, description } = Astro.props;
   }
 
   .nav-logo {
-    font-size: 1.4rem;
-    font-weight: 700;
-    background: var(--gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    display: flex;
+    align-items: center;
     text-decoration: none;
-    letter-spacing: -0.02em;
+  }
+
+  .nav-logo img {
+    height: 28px;
+    width: auto;
+    display: block;
   }
 
   .nav-links {
@@ -104,15 +109,20 @@ const { title, description } = Astro.props;
     margin-top: 4rem;
   }
 
-  .footer-logo {
-    font-size: 1.2rem;
+  .footer-icon {
+    height: 36px;
+    width: auto;
+    display: block;
+    margin: 0 auto 0.6rem;
+  }
+
+  .footer-wordmark {
+    font-size: 1.1rem;
     font-weight: 700;
-    background: var(--gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: #fff;
     display: block;
     margin-bottom: 0.75rem;
+    letter-spacing: -0.01em;
   }
 
   .tagline {
